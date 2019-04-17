@@ -1,0 +1,64 @@
+<% @products.each_with_index do |prod, index| %>
+		<% if index % 3 == 0 %>
+			<div class="row">
+		<% end %>
+
+		<div class="col-md-4">
+			<div class="well prod_well">
+				<div class="row">
+					<% if !prod.image.file.nil? %>
+						<%= link_to(prod) do %>
+						<%= image_tag prod.image, class:"img-responsive" %>
+						<% end %>
+					<% end %>
+				</div>
+					<p><h3><%= link_to prod.name, prod %></h3></p>
+					<p><%= number_to_currency prod.price %></p>
+					<p>
+						<a href = "#" data-toggle="modal" data-target="#myModal_<%= prod.id %>">
+							<span class="glyphicon glyphicon-plus"></span>Quick Info
+						</a>
+					</p>
+			</div>
+		</div>
+
+		<% if index % 3 == 2 %>
+			</div>
+		<% end %>
+
+		<!-- Modal -->
+		<div class="modal fade" id="myModal_<%= prod.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		        <h4 class="modal-title" id="myModalLabel"> <%= prod.name %> </h4>
+		      </div>
+		      <div class="modal-body">
+		        <% if !prod.image.file.nil? %>
+						<%= link_to(prod) do %>
+						<%= image_tag prod.image, class:"img-responsive" %>
+						<% end %>
+				<% end %>
+				<p><h3><%= prod.description %></h3></p>
+				<p>Made by: <%= prod.brand %></p>
+				<p><h3><%= number_to_currency prod.price %></h3></p>
+
+				</div>
+		      <div class="modal-footer">
+		      	<p>
+		      		<%= form_tag add_to_cart_path do %>
+		      			Quantity: <%= number_field_tag :quantity, 1 %>
+		      			<%= hidden_field_tag :product_id, prod.id %>
+		      			<%= submit_tag "Add to Cart", class:"btn btn-primary" %>
+		      		<% end %>
+		      	</p>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+
+
+			<% end %>
+
+		

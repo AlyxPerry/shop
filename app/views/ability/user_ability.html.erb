@@ -1,0 +1,20 @@
+<h1>All Users</h1>
+
+<table class="table">
+	<thead>
+		<tr>
+		<th>User</th>
+		<th>Ability</th>
+		<th>Edit</th>
+		</tr>
+	</thead>
+	<tbody>
+		<% @users.each do |user| %>
+			<tr>
+			<td><%= user.email %></td>
+			<td><%= user.role %></td>
+			<td><%= link_to "Make Admin", make_admin_path(user_id: user.id) %></td>
+			</tr>
+		<% end %>
+	</tbody>
+</table>

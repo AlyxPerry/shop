@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Ceramics Store</title>
+    <%= csrf_meta_tags %>
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body class="body">
+  	<nav class="navbar navbar-default">
+	    <div class="container-fluid">
+	      <!-- Brand and toggle get grouped for better mobile display -->
+	      <div class="navbar-header">
+	        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+	          <span class="sr-only">Toggle navigation</span>
+	          <span class="icon-bar"></span>
+	          <span class="icon-bar"></span>
+	          <span class="icon-bar"></span>
+	        </button>
+	        <%= link_to "Ceramics Shop", root_path, class: "navbar-brand" %>
+	      </div>
+	      <!-- Collect the nav links, forms, and other content for toggling -->
+	      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+	        <ul class="nav navbar-nav">
+	          <li class="dropdown">
+	              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Categories<span class="caret"></span></a>
+	              <ul class="dropdown-menu">
+	                <% @categories.each do |category| %>
+	                	<li><%= link_to category.name, categorical_path(category_id: category.id) %>
+	                	</li>
+	                <% end %>
+	        		</ul>
+	        	</li>
+<li class="dropdown">
+	              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Brands<span class="caret"></span></a>
+	              <ul class="dropdown-menu">
+	                <% @brands.each do |brand| %>
+	                	<li><%= link_to brand, branding_path(brand_id: brand) %>
+	                	</li>
+	                <% end %>
+	        		</ul>
+	        	</li> 
+	        	<% if current_user.role =="admin" %>
+	        		<li><%= link_to "Manage Users", user_ability_path %> </li>
+	        	<% end %>
+	        	
+	        </ul>
+	        <ul class="nav navbar-nav navbar-right">
+	          
+				<li>
+					<i class="fa fa-shopping-cart fa-2x"> <%= link_to current_order.line_items.length, view_cart_path %></i>
+				</li>
+	          <% if user_signed_in? %>
+	            <li class="dropdown">
+	              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+	                <%= current_user.email %> <i class="fa fa-caret-down fa-lg" aria-hidden="true"></i></a>
+	              <ul class="dropdown-menu">
+	                <li><%= link_to "Edit Profile", edit_user_registration_path %></li>
+	                <li><%= link_to "Sign Out", destroy_user_session_path, method: :delete %></li>
+	              </ul>
+	            </li>
+	          <% else %>
+				<li><%= link_to "Sign In", new_user_session_path %></li>
+	          	<li><%= link_to "Register", new_user_registration_path %></li>
+	          <% end %>
+
+	        </ul>
+	      </div>
+	    </div>
+	  </nav>
+
+  	<div class="container">
+    	<%= yield %>
+    </div>
+  </body>
+</html>
